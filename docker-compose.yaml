@@ -16,7 +16,7 @@ services:
     network_mode: host  
   
   backend:
-    image: pacmail-backend:latest
+    image: ${APP_IMAGE}:${APP_TAG}
     container_name: pacmail-backend
     hostname: backend
     restart: always
