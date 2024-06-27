@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+
+  frontend:
+    image: node:latest
+    container_name: pacmail-frontend
+    working_dir: /frontend
+    restart: always
+    depends_on:
+      - backend
+      - database
+    volumes:
+      - ./frontend:/frontend
+    command: npm start
+    network_mode: host  
+  
+  backend:
+    image: pacmail-backend:latest
+    container_name: pacmail-backend
+    hostname: backend
+    restart: always
+    depends_on:
+      - database
+    volumes:
+      - ./backend:/backend
+    network_mode: host  
+  
+  database:
+    image: postgres:13
+    container_name: pacmail-database
+    hostname: database
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    network_mode: host
+
+volumes:
+  postgres_data:
+    name: postgres_data
