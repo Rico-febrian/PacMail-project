@@ -28,18 +28,12 @@ jobs:
         run: |
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" > .env
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "APP_IMAGE=${{ secrets.APP_IMAGE }}" >> .env
-
-      - name: Build Custom Backend Image
-        run: |
-          
-            docker build -t pacmail-backend:latest ./backend
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env 
 
       - name: Run Docker Compose
         run: |
           
-            docker-compose up --build -d
+            docker-compose up --build --detach
             
       - name: Build and Test backend
         run: | 
