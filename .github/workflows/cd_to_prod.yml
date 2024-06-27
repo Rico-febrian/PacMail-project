@@ -56,4 +56,4 @@ jobs:
       - name: Hit Endpoint
         run: |
           sleep 20
-          curl ${{ secrets.APP_URL }}
+          curl http://localhost:3000
