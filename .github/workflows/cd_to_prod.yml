@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-production:
     name: Deploy to production server
-    environment: Production
+    environment: production
     runs-on: self-hosted
 
     steps:
@@ -55,5 +55,5 @@ jobs:
 
       - name: Hit Endpoint
         run: |
-          sleep 20
+          sleep 15
           curl http://localhost:3000
