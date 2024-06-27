@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-production:
     name: Deploy to production server
-    environment: Production
+    environment: production
     runs-on: self-hosted
 
     steps:
