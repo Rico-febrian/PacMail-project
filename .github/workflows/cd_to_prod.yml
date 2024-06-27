@@ -55,5 +55,5 @@ jobs:
 
       - name: Hit Endpoint
         run: |
-          sleep 20
+          sleep 15
           curl http://localhost:3000
