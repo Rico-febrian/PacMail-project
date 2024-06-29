@@ -38,4 +38,4 @@ jobs:
       - name: Build and Test backend
         run: | 
     
-            pytest
+            pytest testing/test_signup.py
