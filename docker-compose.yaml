@@ -23,7 +23,7 @@ services:
     hostname: backend
     restart: always
     env_file:
-      - ./backend/.env
+      - .env
     depends_on:
       - database
     volumes:
