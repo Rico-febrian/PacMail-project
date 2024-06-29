@@ -7,6 +7,8 @@ services:
     container_name: pacmail-frontend
     working_dir: /frontend
     restart: always
+    env_file:
+      - .env
     depends_on:
       - backend
       - database
