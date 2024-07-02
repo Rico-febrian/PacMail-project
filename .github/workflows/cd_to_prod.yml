@@ -17,6 +17,7 @@ jobs:
           APP_PROD_PATH: ${{ vars.APP_PROD_PATH }}
           GIT_URL: ${{ secrets.GIT_URL }}
           API_URL: ${{ secrets.API_URL }}
+          BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -29,7 +30,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER_NAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: APP_PROD_PATH, GIT_URL, API_URL, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, APP_NAME, APP_TAG
+          envs: APP_PROD_PATH, GIT_URL, API_URL, BACKEND_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, APP_NAME, APP_TAG
           script: |
             
             sudo docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
@@ -49,6 +50,7 @@ jobs:
             echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
             echo "POSTGRES_DB=$POSTGRES_DB" >> .env
             echo "REACT_APP_API_URL=${API_URL}" >> .env
+            echo "BACKEND_PORT=$BACKEND_PORT" >> .env
             echo "APP_IMAGE=${APP_NAME}" >> .env
             echo "APP_TAG=$APP_TAG" >> .env
 
