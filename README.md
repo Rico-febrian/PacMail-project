@@ -60,13 +60,38 @@ You can use GitHub Actions or any other tools for automating these steps. Check 
 
 To make the app accessible via the internet, you'll need to register a domain name. Services like Hostinger or any other domain register can help you with this. Point your new domain to your server's public IP address.
 
+![DNS](https://github.com/Rico-febrian/PacMail-project/assets/154787203/d7fb40d8-fe29-49b7-9376-150b137498b0)
+
+
 ### 6. Configure Web Server using Nginx
 
 Once you have your DNS set up, you need to configure Nginx to act as a reverse proxy. This will forward traffic from your domain to the correct parts of your application (frontend and backend).
 
+- Reverse proxy configuration
+
+![NGINX](https://github.com/Rico-febrian/PacMail-project/assets/154787203/8da4ee16-8a4a-41a4-9bf0-1c236ed35664)
+
+
+
+- Domain test in browser (HTTP)
+
+![HTTP](https://github.com/Rico-febrian/PacMail-project/assets/154787203/a919df40-23e9-4581-b8c8-4d8ae84f0fa3)
+
+
+
 ### 7. Obtain SSL Certificate using Certbot
 
 Finally, you need to secure the application using SSL. Certbot is a great tool to obtain and install SSL certificates for your domain easily.
+
+- Genereate SSL certificate
+
+![Certbot](https://github.com/Rico-febrian/PacMail-project/assets/154787203/eb5f76ab-8c39-4293-a35e-c96cc969eae2)
+
+
+- Domain test in browser (HTTPS)
+
+![HTTPS](https://github.com/Rico-febrian/PacMail-project/assets/154787203/5bf6cd77-f31b-49a4-aab2-447ea42f5766)
+
 
 ---
 
