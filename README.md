@@ -39,18 +39,26 @@ You can use Docker Compose to deploy PacMail. This tool simplifies managing the 
 
 Setting up a CI/CD pipeline ensures your code is always tested, built, and deployed automatically. This involves:
 
-- Continuous Integration: Building, testing, and merging code changes.
+- Continuous Integration: Building, testing, and merging code changes when there is a pull request to the main branch.
+![CI - Build and Testing](https://github.com/Rico-febrian/PacMail-project/assets/154787203/afa33c18-5ce8-4852-bef3-f2ba478af5a9)
 
-- Continuous Delivery: Pushing our Docker images to your Docker Hub.
 
-- Continuous Deployment: Deploying and running the app on your server.
+
+- Continuous Delivery: Pushing our Docker images to your Docker Hub when there is a push/merge to the main branch.
+![CD to Registry](https://github.com/Rico-febrian/PacMail-project/assets/154787203/1437dea3-a2e5-4d1b-ad7c-4411cdabe26c)
+
+
+
+- Continuous Deployment: Deploying and running the app on your server when there is a push/merge to the main branch
+![CD to Prod](https://github.com/Rico-febrian/PacMail-project/assets/154787203/1d79a0d4-9d78-4b67-ae89-6e448c52d66e)
+
 
 You can use GitHub Actions or any other tools for automating these steps. Check out my code walkthrough:
 [Click Here](https://github.com/Rico-febrian/PacMail-project/tree/main/.github/workflows)
 
 ### 5. Create Domain Name
 
-To make the app accessible via the internet, you'll need to register a domain name. Services like Hostinger or any other domain registrar can help you with this. Point your new domain to your server's public IP address.
+To make the app accessible via the internet, you'll need to register a domain name. Services like Hostinger or any other domain register can help you with this. Point your new domain to your server's public IP address.
 
 ### 6. Configure Web Server using Nginx
 
