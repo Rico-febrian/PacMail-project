@@ -1,4 +1,4 @@
-name: Continuous Delivery to Production
+name: Push to Production - CD
 
 on:
   push:
