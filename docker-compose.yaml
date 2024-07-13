@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
 
+  # Frontend service configuration
   frontend:
     image: node:latest
     container_name: pacmail-frontend
     working_dir: /frontend
     restart: always
     environment:
-      - REACT_APP_API_URL=${REACT_APP_API_URL}
+      - REACT_APP_API_URL=${REACT_APP_API_URL} # API URL for the frontend to communicate with the backend
     depends_on:
       - backend
       - database
@@ -17,6 +18,7 @@ services:
     command: npm start
     network_mode: host  
   
+  # Backend service configuration
   backend:
     build:
       context: ./backend
@@ -34,6 +36,7 @@ services:
       - ./backend:/backend
     network_mode: host
   
+  # Database service configuration
   database:
     image: postgres:13
     container_name: pacmail-database
@@ -47,6 +50,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     network_mode: host
 
+# Volume for database service (PostgreSQL data)
 volumes:
   postgres_data:
     name: postgres_data
