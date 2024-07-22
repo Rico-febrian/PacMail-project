@@ -49,7 +49,7 @@ jobs:
             # Log in to Docker Hub
             sudo docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
 
-            # Check if the application directory exists and clone the repository if directory doesn't exist
+            # Check if the application directory exists and clone the repository if the directory doesn't exist
             if [[ -d "${APP_PROD_PATH}" ]]; then 
               cd $APP_PROD_PATH
               sudo docker compose down
