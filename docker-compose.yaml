@@ -1,56 +1,113 @@
+# Version of the Docker Compose file format
 version: '3.8'
 
 services:
 
-  # Frontend service configuration
+  # SET UP FRONTEND SERVICE CONFIGURATION
   frontend:
-    image: node:latest
+    
+    # Choose the image and tags to use
+    # In this service I'm using the Node.js image with "latest" tag/version
+    image: node:latest 
+    
+    # Set up name of the container for the frontend service
     container_name: pacmail-frontend
+    
+    # Set up working directory inside the container
     working_dir: /frontend
-    restart: always
+    
+    # Always restart the container if it fails
+    restart: always 
+
+    # Set up environment file config
     environment:
       - REACT_APP_API_URL=${REACT_APP_API_URL} # API URL for the frontend to communicate with the backend
+
+    # Frontend service will run depends on backend and database service
     depends_on:
       - backend
       - database
+
+    # Set up the volumes
     volumes:
-      - ./frontend:/frontend
+      - ./frontend:/frontend # Mount local frontend directory to the container
+
+    # Define the command to run the frontend application
     command: npm start
-    network_mode: host  
-  
-  # Backend service configuration
+
+    # Set up network mode
+    # Use host network mode for inter-service or isolated communication
+    network_mode: host 
+
+#--------------------------------------------------------------------------------------------#
+
+  # SET UP BACKEND SERVICE CONFIGURATION
   backend:
+
+    # Build custom image
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: ./backend # Build context directory for the backend service
+      dockerfile: Dockerfile # Dockerfile name to build the backend image
+
+    # Set up name of the container for the backend service
     container_name: pacmail-backend
+
+    # Set up hostname for the backend service
     hostname: backend
+
+    # Always restart the container if it fails
     restart: always
+
+    # Set up environment file config
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}          # PostgreSQL user for the backend
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  # PostgreSQL password for the backend
+      - POSTGRES_DB=${POSTGRES_DB}              # PostgreSQL database name for the backend
+
+    # Backend service will run depends on database service
     depends_on:
       - database
+
+    # Set up the volume
     volumes:
-      - ./backend:/backend
-    network_mode: host
-  
-  # Database service configuration
-  database:
-    image: postgres:13
-    container_name: pacmail-database
-    hostname: database
-    restart: always
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./backend:/backend # Mount local backend directory to the container
+
+    # Set up network mode
     network_mode: host
 
-# Volume for database service (PostgreSQL data)
+#--------------------------------------------------------------------------------------------#
+
+  # SET UP DATABASE SERVICE CONFIGURATION
+  database:
+
+    # Choose the image and tags to use
+    # In this service I'm using the postgres image with "13" tag/version
+    image: postgres:13
+
+    # Set up name of the container for the database service
+    container_name: pacmail-database
+
+    # Set up hostname for the database service
+    hostname: database
+
+    # Always restart the container if it fails
+    restart: always
+
+    # Set up environment file config
+    environment: 
+      - POSTGRES_USER=${POSTGRES_USER}          # PostgreSQL user for the backend
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  # PostgreSQL password for the backend
+      - POSTGRES_DB=${POSTGRES_DB}              # PostgreSQL database name for the backend
+
+    # Set up the volume
+    # In this service I created "postgres_data" volume
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Set up network mode
+    network_mode: host
+
+# Define selected volume
 volumes:
   postgres_data:
     name: postgres_data
