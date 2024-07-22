@@ -1,39 +1,55 @@
+# Define name of the workflow
 name: Push to Production - CD
 
+# Set up workflow trigger
+# In this workflow I set the trigger on push/merge to the main branch
+# It means, this workflow will run if there is a push/merge from another branch to the main branch
 on:
   push:
     branches: [ "main"]
 
+# Set up the workflow job  
 jobs:
   deploy-production:
-    name: Deploy to production server
-    environment: production
-    runs-on: self-hosted
+    name: Deploy to production server   # define name of the job
+    environment: production             # Specify the environment for the job (Set up the environment in the repo's settings)
+    runs-on: self-hosted                # Define the runner to execute the job (Set up a self-hosted runner in the repo's settings)
 
+    # Set up steps when running the job
     steps:
+
+      # Execute deployment commands on the production server using the selected 'uses'
       - name: Execute deployment command
         uses: appleboy/ssh-action@v1.0.3
+
+        # Set up .env file configuration
         env:
-          APP_PROD_PATH: ${{ vars.APP_PROD_PATH }}
-          GIT_URL: ${{ secrets.GIT_URL }}
-          API_URL: ${{ secrets.API_URL }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-          APP_NAME: ${{ secrets.APP_IMAGE }}
-          APP_TAG: ${{ github.event.release.tag_name }}
+          APP_PROD_PATH: ${{ vars.APP_PROD_PATH }}                # Path where the application is deployed
+          GIT_URL: ${{ secrets.GIT_URL }}                         # Git URL for the repository
+          API_URL: ${{ secrets.API_URL }}                         # API URL for the frontend to communicate with the backend
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}             # PostgreSQL username
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}     # PostgreSQL password
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}                 # PostgreSQL database name
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}   # Dockerhub username
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}         # Dockerhub token
+          APP_NAME: ${{ secrets.APP_IMAGE }}                      # Docker image name
+          APP_TAG: ${{ github.event.release.tag_name }}           # Docker image tag from the release
 
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER_NAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}                           # SSH host for the production server
+          username: ${{ secrets.SSH_USER_NAME }}                  # SSH username for the production server
+          key: ${{ secrets.SSH_PRIVATE_KEY }}                     # SSH private key for authentication
+
+          # List of environment variables to pass
           envs: APP_PROD_PATH, GIT_URL, API_URL, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DOCKERHUB_USERNAME, DOCKERHUB_TOKEN, APP_NAME, APP_TAG
+          
+          # Define the script to run the job in the containers
           script: |
             
+            # Log in to Docker Hub
             sudo docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
 
+            # Check if the application directory exists and clone the repository if directory doesn't exist
             if [[ -d "${APP_PROD_PATH}" ]]; then 
               cd $APP_PROD_PATH
               sudo docker compose down
@@ -44,7 +60,7 @@ jobs:
               cd $APP_PROD_PATH
             fi
 
-            # If there are any envars update
+            # Update the .env file with environment variables
             echo "POSTGRES_USER=$POSTGRES_USER" > .env
             echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
             echo "POSTGRES_DB=$POSTGRES_DB" >> .env
@@ -52,11 +68,11 @@ jobs:
             echo "APP_IMAGE=${APP_NAME}" >> .env
             echo "APP_TAG=$APP_TAG" >> .env
 
-            # Run app
+            # Build and run the app
             sudo docker compose up --build --detach
-
+      
+      # Verify the deployment by hitting the application endpoint
       - name: Hit Endpoint
         run: |
           sleep 15
           curl ${{ secrets.APP_URL }}
-          
