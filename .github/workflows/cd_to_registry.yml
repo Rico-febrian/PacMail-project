@@ -40,8 +40,6 @@ jobs:
           context: ./backend          # Directory for the backend service
           file: ./backend/Dockerfile  # Dockerfile path for the backend service
           push: true                  # Push the built image to dockerhub
-          
-          # Define tags for the Docker image
-          tags: |                    
+          tags: |                     # Define tags for the Docker image
             ${{ secrets.APP_IMAGE }}:${{ github.ref_name }} # Tag with the branch name
             ${{ secrets.APP_IMAGE }}:latest                 # Tag with 'latest'
