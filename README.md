@@ -1,6 +1,8 @@
 # ***Welcome to the PacMail Deployment Guide!***
 
-Hi there! Welcome to my project. In this guide, I will walk you through deploying the PacMail web application, making it accessible to the public with a domain name. Think of this as a fun journey we'll take together. Let's get started!
+**Hello welcome to my learning logs!** This particular entry guides you through the deployment of the **PacMail** web application, showcasing how I made it securely accessible to the public via a custom domain name using CI/CD.
+
+For a detailed, step-by-step guide on how this project was created, you can access the full documentation here: [Full Documentation](https://www.canva.com/design/DAGKP7RlfNE/1cqnzBe_4cAifj9T_M8uzg/view?utm_content=DAGKP7RlfNE&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ---
 
